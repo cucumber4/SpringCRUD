@@ -5,11 +5,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.chassovnikov.com.dao.BookDAO;
+import ru.chassovnikov.com.dao.PersonDAO;
 import ru.chassovnikov.com.models.Book;
 import ru.chassovnikov.com.models.Person;
 import ru.chassovnikov.com.util.BookValidator;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -17,10 +19,12 @@ public class BookController {
 
     private final BookDAO bookDAO;
     private final BookValidator bookValidator;
+    private final PersonDAO personDAO;
 
-    public BookController(BookDAO bookDAO, BookValidator bookValidator) {
+    public BookController(BookDAO bookDAO, BookValidator bookValidator, PersonDAO personDAO) {
         this.bookDAO = bookDAO;
         this.bookValidator = bookValidator;
+        this.personDAO = personDAO;
     }
 
 
@@ -31,10 +35,27 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
-        model.addAttribute("book", bookDAO.show(id));
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person ) {
+        Book book = bookDAO.show(id);
+        Optional<Person> sorson = bookDAO.getBookOwner(id);
+
+        if (sorson.isPresent()) {
+            model.addAttribute("owner", sorson.get().getName());
+        } else {
+            model.addAttribute("owner", "Нет владельца"); // или другое сообщение по умолчанию
+        }
+
+        if (book.getOwnerId() == null) {
+            System.out.println("null Integer");
+            model.addAttribute("list", personDAO.index());
+        }
+
+        model.addAttribute("book", book);
+        model.addAttribute("people", personDAO.index());
+
         return "book/show";
     }
+
 
     @GetMapping("/new")
     public String newPerson(@ModelAttribute("book") Book book){
@@ -78,4 +99,14 @@ public class BookController {
         bookDAO.delete(id);
         return "redirect:/books";
     }
+
+    @PatchMapping("/add/{id}")
+    public String makeAdmin(@ModelAttribute("person") Person person, @PathVariable("id") int id){
+        System.out.println(person.getId() + ", " + id);
+
+        bookDAO.assignBook(person.getId(), id);
+
+        return "redirect:/books";
+    }
+
 }

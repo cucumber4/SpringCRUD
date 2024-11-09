@@ -1,15 +1,12 @@
 package ru.chassovnikov.com.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.chassovnikov.com.models.Book;
 import ru.chassovnikov.com.models.Person;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +31,7 @@ public class BookDAO {
     }
 
     public Book show(int book_id){
-        return jdbcTemplate.query("SELECT id, name, year, author FROM Book WHERE id = ?", new Object[]{book_id}, new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT id, owner_id, name, year, author FROM Book WHERE id = ?", new Object[]{book_id}, new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
     }
 
 
@@ -49,5 +46,11 @@ public class BookDAO {
         jdbcTemplate.update("DELETE FROM Book WHERE id = ?", id);
     }
 
+    public void assignBook(int owner_id, int book_id){
+        jdbcTemplate.update("UPDATE Book SET owner_id = ? WHERE id = ?", owner_id , book_id);
+    }
 
+    public Optional<Person> getBookOwner(int id){
+        return jdbcTemplate.query("SELECT person.* FROM person JOIN book ON person.id = book.owner_id WHERE book.id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
 }
