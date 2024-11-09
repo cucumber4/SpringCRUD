@@ -4,7 +4,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 public class Book {
-    private int book_id;
+    private int id;
     private int owner_id;
     @NotBlank(message = "Name cannot be blank")
     private String name;
@@ -13,27 +13,27 @@ public class Book {
 
     public Book(){}
 
-    public Book(int book_id, String name, String author, int year) {
-        this.book_id = book_id;
+    public Book(int id, String name, String author, int year) {
+        this.id = id;
         this.name = name;
         this.author = author;
         this.year = year;
     }
 
-    public Book(int book_id, int owner_id ,String name, String author, int year) {
-        this.book_id = book_id;
+    public Book(int id, int owner_id ,String name, String author, int year) {
+        this.id = id;
         this.owner_id = owner_id;
         this.name = name;
         this.author = author;
         this.year = year;
     }
 
-    public int getBook_id() {
-        return book_id;
+    public int getId() {
+        return id;
     }
 
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
+    public void setId(int book_id) {
+        this.id = book_id;
     }
 
     public int getOwner_id(){
@@ -71,6 +71,6 @@ public class Book {
     @Override
     public String toString(){
 
-        return  "id : " + getBook_id() + " name " + getName() + " author : " + getAuthor();
+        return  "id : " + getId() + " name " + getName() + " author : " + getAuthor();
     }
 }
