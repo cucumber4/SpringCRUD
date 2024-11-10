@@ -66,6 +66,20 @@
     <p><strong>ID:</strong> <span th:text="${person.getId()}"></span></p>
     <p><strong>Year:</strong> <span th:text="${person.getYear()}"></span></p>
 
+    <div th:if="${books}">
+        <p>У человека чейчас  :</p>>
+        <ul class="book-list" th:each="book : ${books}">
+            <li class="book-item">
+                <a th:href="@{/books/{id}(id=${book.getId()})}"
+                   th:text="${book.getId() + ' ' + book.getName() + ', ' + book.getAuthor() + ', '  + book.getYear() }"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div th:if="${absent}">
+        <p>Человек еще не взял ни одной книги</p>
+    </div>
+
 
     <a th:href="@{/people/{id}/edit(id=${person.getId()})}">EDIT</a>
 
@@ -73,5 +87,6 @@
         <input type="submit" value="DELETE">
     </form>
 </div>
+
 </body>
 </html>

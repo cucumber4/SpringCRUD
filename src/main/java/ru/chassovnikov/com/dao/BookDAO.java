@@ -53,4 +53,12 @@ public class BookDAO {
     public Optional<Person> getBookOwner(int id){
         return jdbcTemplate.query("SELECT person.* FROM person JOIN book ON person.id = book.owner_id WHERE book.id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
+
+    public List<Book> showAll(int id){
+        return jdbcTemplate.query("Select * FROM book WHERE owner_id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public void release(int id){
+        jdbcTemplate.update("UPDATE Book SET owner_id = NULL where id = ?", id);
+    }
 }

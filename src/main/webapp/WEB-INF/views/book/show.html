@@ -30,6 +30,9 @@
 
     <div th:if="${book.getOwnerId != null}">
         <p>Эта книга сейчас у : <h3 th:text="${book.getOwnerId() + ' ' + owner}"></h3></p>
+        <form th:method="PATCH" th:action="@{/books/release/{id}(id=${book.getId()})}">
+            <input type="submit" value="Освободить книгу">
+        </form>
     </div>
 
     <div th:if="${list}">
