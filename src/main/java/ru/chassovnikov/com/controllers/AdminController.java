@@ -11,7 +11,6 @@ import ru.chassovnikov.com.dao.PersonDAO;
 import ru.chassovnikov.com.models.Person;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
     private final PersonDAO personDAO;
 
@@ -20,17 +19,10 @@ public class AdminController {
         this.personDAO = personDAO;
     }
 
-    @GetMapping()
-    public String adminPage(Model model, @ModelAttribute("person")Person person){
-        model.addAttribute("people", personDAO.index());
+    @GetMapping("/")
+    public String adminPage(){
 
-        return "admin_page";
+        return "hello";
     }
 
-    @PatchMapping("/add")
-    public String makeAdmin(@ModelAttribute("person") Person person){
-        System.out.println(person.getId());
-
-        return "redirect:/people";
-    }
 }

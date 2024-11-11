@@ -61,10 +61,10 @@
 </head>
 <body>
 <div class="container">
-    <h1>Person Information</h1>
-    <p><strong>Name:</strong> <span th:text="${person.getName()}"></span></p>
+    <h1>Персональная информация</h1>
     <p><strong>ID:</strong> <span th:text="${person.getId()}"></span></p>
-    <p><strong>Year:</strong> <span th:text="${person.getYear()}"></span></p>
+    <p><strong>Имя:</strong> <span th:text="${person.getName()}"></span></p>
+    <p><strong>Год Рождения:</strong> <span th:text="${person.getYear()}"></span></p>
 
     <div th:if="${books}">
         <p>У человека чейчас  :</p>>
@@ -81,10 +81,10 @@
     </div>
 
 
-    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">EDIT</a>
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Редактировать</a>
 
     <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-        <input type="submit" value="DELETE">
+        <input type="submit" value="Удалить">
     </form>
 </div>
 

@@ -65,7 +65,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>People List</h1>
+    <h1>Список людей</h1>
     <ul class="person-list" th:each="person : ${people}">
         <li class="person-item">
             <a th:href="@{/people/{id}(id=${person.getId()})}"
@@ -73,7 +73,7 @@
         </li>
     </ul>
 
-    <a href="/people/new" class="create-button">Create New Person</a>
+    <a href="/people/new" class="create-button">Добавить нового человека</a>
 </div>
 </body>
 </html>
