@@ -35,26 +35,30 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person ) {
+    public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
+
         Book book = bookDAO.show(id);
-        Optional<Person> sorson = bookDAO.getBookOwner(id);
+        Optional<Person> owner = bookDAO.getBookOwner(id);
 
-        if (sorson.isPresent()) {
-            model.addAttribute("owner", sorson.get().getName());
+        if (owner.isPresent()) {
+            model.addAttribute("owner", owner.get().getName());
         } else {
-            model.addAttribute("owner", "Нет владельца"); // или другое сообщение по умолчанию
+            model.addAttribute("owner", "Нет владельца");
         }
 
-        if (book.getOwnerId() == null) {
-            System.out.println("null Integer");
-            model.addAttribute("list", personDAO.index());
+        if (book.getOwner() == null) {
+            model.addAttribute("list", true);
+            model.addAttribute("people", personDAO.index());
+        } else {
+            model.addAttribute("list", false);
         }
+
 
         model.addAttribute("book", book);
-        model.addAttribute("people", personDAO.index());
 
         return "book/show";
     }
+
 
 
     @GetMapping("/new")
@@ -101,10 +105,10 @@ public class BookController {
     }
 
     @PatchMapping("/add/{id}")
-    public String makeAdmin(@ModelAttribute("person") Person person, @PathVariable("id") int id){
-        System.out.println(person.getId() + ", " + id);
+    public String makeAdmin(@RequestParam("ownerId") int ownerId, @PathVariable("id") int bookId) {
+        System.out.println("Назначено пернсон айди: " + ownerId + " Бук айди: " + bookId);
 
-        bookDAO.assignBook(person.getId(), id);
+        bookDAO.assignBook(ownerId, bookId);
 
         return "redirect:/books";
     }

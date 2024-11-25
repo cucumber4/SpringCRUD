@@ -1,15 +1,29 @@
 package ru.chassovnikov.com.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "Person")
 public class Person {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Min(value = 0, message = "cannot be less tha zero")
-    private int year;
+
+    @Column(name = "name")
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 255, message = "name should be between 2 and 255")
     private String name;
 
+    @Column(name="year")
+    @Min(value = 0, message = "cannot be less tha zero")
+    private int year;
+
+    @OneToMany( mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Book> books;
 
     public Person(){}
     public Person(int id, String name , int year) {
@@ -18,6 +32,10 @@ public class Person {
         this.year = year;
     }
 
+    public Person(String name , int year) {
+        this.name = name;
+        this.year = year;
+    }
     public int getId() {
         return id;
     }
@@ -40,5 +58,13 @@ public class Person {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

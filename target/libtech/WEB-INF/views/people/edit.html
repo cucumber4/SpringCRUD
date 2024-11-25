@@ -50,16 +50,16 @@
 </head>
 <body>
 <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
-    <label for="name">Enter Name</label>
+    <label for="name">Введите имя</label>
     <input type="text" th:field="*{name}" id="name" />
     <div style="color:rosybrown" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     <br/>
-    <label for="year">Enter year</label>
+    <label for="year">Введите год рождения</label>
     <input type="text" th:field="*{year}" id="year" />
     <div style="color:rosybrown" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Age error</div>
     <br/>
     <hr/>
-    <input type="submit" value="Update!" />
+    <input type="submit" value="Обновить" />
 </form>
 </body>
 </html>

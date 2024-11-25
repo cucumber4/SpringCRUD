@@ -1,22 +1,37 @@
 package ru.chassovnikov.com.models;
 
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
+@Entity
+@Table(name = "Book")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    private Integer owner_id;
     @NotBlank(message = "Name cannot be blank")
+    @Column(name = "name")
     private String name;
+    @Column(name = "author")
     private String author;
+    @Column(name = "year")
     private int year;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private Person owner;
 
     public Book(){}
 
-
-    public Book(int id, Integer owner_id ,String name, String author, int year) {
+    public Book(int id,String name, String author, int year) {
         this.id = id;
-        this.owner_id = owner_id;
+        this.name = name;
+        this.author = author;
+        this.year = year;
+    }
+    public Book(String name, String author, int year) {
         this.name = name;
         this.author = author;
         this.year = year;
@@ -31,11 +46,15 @@ public class Book {
     }
 
     public Integer getOwnerId(){
-        return owner_id;
+        return owner.getId();
     }
 
-    public void setOwnerId(Integer owner_id){
-        this.owner_id = owner_id;
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 
     public String getName() {
