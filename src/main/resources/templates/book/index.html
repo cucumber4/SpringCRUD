@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All the books</title>
+    <style>
+
+        body {
+            background-color: #f3eac2;
+            font-family: 'Georgia', serif;
+            color: #4b2e1e;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #5b3921;
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .book-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 600px;
+            border: 2px solid #b89974;
+            border-radius: 8px;
+            background-color: #f8f1e8;
+            padding: 20px;
+        }
+
+        .book-item {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1.2em;
+            color: #3e2719;
+            background-color: #efddc1;
+            border-radius: 5px;
+            border-left: 4px solid #b05e27;
+        }
+
+        .book-item a {
+            color: #8c5c3d;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .book-item a:hover {
+            color: #b05e27;
+        }
+
+        .create-button {
+            display: block;
+            max-width: 150px;
+            margin: 30px auto;
+            padding: 10px;
+            text-align: center;
+            background-color: #b05e27;
+            color: #f8f1e8;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+        .create-button:hover {
+            background-color: #8c5c3d;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #b89974;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+<h1>Все книги</h1>
+
+<ul class="book-list" th:each="book : ${books}">
+    <li class="book-item">
+        <a th:href="@{/books/{id}(id=${book.getId()})}"
+           th:text="${book.getId() + ' ' + book.getName() + ', ' + book.getAuthor() + ', '  + book.getYear() }"></a>
+    </li>
+</ul>
+<hr/>
+<hr/>
+<a href="/books/new" class="create-button">Добавить книгу !</a>
+</body>
+</html>

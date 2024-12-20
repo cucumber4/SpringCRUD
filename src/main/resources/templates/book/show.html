@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+    <style>
+
+        body {
+            background-color: #f3eac2;
+            font-family: 'Georgia', serif;
+            color: #4b2e1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #f8f1e8;
+            padding: 30px;
+            border: 2px solid #b89974;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #5b3921;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #5b3921;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        h3 {
+            color: #b05e27;
+            font-size: 1.2em;
+        }
+
+        p {
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+
+        a {
+            color: #b05e27;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #8c5c3d;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #b05e27;
+            color: #f8f1e8;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #8c5c3d;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #b05e27;
+            border-radius: 5px;
+            font-size: 1em;
+            color: #4b2e1e;
+            background-color: #efddc1;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #b89974;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Информация о книге</h1>
+    <p><strong>ID:</strong> <span th:text="${book.id}"></span></p>
+    <p><strong>Название:</strong> <span th:text="${book.name}"></span></p>
+    <p><strong>Автор:</strong> <span th:text="${book.author}"></span></p>
+    <p><strong>Год выпуска:</strong> <span th:text="${book.year}"></span></p>
+
+    <hr/>
+    <a th:href="@{/books/{id}/edit(id=${book.id})}">Редактировать</a>
+
+    <form th:method="post" th:action="@{/books/{id}(id=${book.id})}">
+        <input type="hidden" name="_method" value="DELETE" />
+        <input type="submit" value="Удалить книгу">
+    </form>
+
+    <hr/>
+    <div th:if="${book.owner != null}">
+        <p>Эта книга сейчас у: <h3 th:text="${owner}"></h3></p>
+        <form th:method="PATCH" th:action="@{/books/release/{id}(id=${book.id})}">
+            <input type="submit" value="Освободить книгу">
+        </form>
+    </div>
+
+    <div th:if="${list}">
+        <h2>Эта книга свободна</h2>
+        <h3>Назначить книгу человеку</h3>
+        <form th:method="PATCH" th:action="@{/books/add/{id}(id=${book.id})}">
+            <label for="person">Выберите человека</label>
+            <select id="person" name="ownerId">
+                <option th:each="person : ${people}" th:value="${person.id}" th:text="${person.name}"></option>
+            </select>
+
+            <input type="submit" value="Назначить книгу пользователю" />
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

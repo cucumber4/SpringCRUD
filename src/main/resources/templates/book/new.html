@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a New Book</title>
+    <style>
+
+        body {
+            background-color: #f3eac2;
+            font-family: 'Georgia', serif;
+            color: #4b2e1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            background-color: #f8f1e8;
+            padding: 20px 40px;
+            border: 2px solid #b89974;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            font-weight: bold;
+            color: #5b3921;
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #b05e27;
+            border-radius: 5px;
+            font-size: 1em;
+            color: #4b2e1e;
+            background-color: #efddc1;
+        }
+
+        .error-message {
+            color: #b05e27;
+            font-size: 0.9em;
+            margin-top: -8px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #b05e27;
+            color: #f8f1e8;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #8c5c3d;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #b89974;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+<form th:method="POST" th:action="@{/books}" th:object="${book}">
+    <label for="name">Введите название</label>
+    <input type="text" th:field="*{name}" id="name" />
+    <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+
+    <label for="author">Введите имя автора</label>
+    <input type="text" th:field="*{author}" id="author" />
+    <div class="error-message" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Author error</div>
+
+    <label for="year">Введите год выпуска</label>
+    <input type="text" th:field="*{year}" id="year" />
+    <div class="error-message" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Year error</div>
+
+    <hr/>
+    <input type="submit" value="Добавить!">
+</form>
+</body>
+</html>

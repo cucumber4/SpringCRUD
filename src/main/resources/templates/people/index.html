@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>People Index</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h1 {
+            color: #555;
+            font-size: 1.8em;
+            margin-bottom: 1em;
+        }
+        .person-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .person-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .person-item a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        .person-item a:hover {
+            color: #388e3c;
+        }
+        .create-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .create-button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Список людей</h1>
+    <ul class="person-list" th:each="person : ${people}">
+        <li class="person-item">
+            <a th:href="@{/people/{id}(id=${person.getId()})}"
+               th:text="${person.getId() + ' ' + person.getName() + ', ' + person.getYear() }"></a>
+        </li>
+    </ul>
+
+    <a href="/people/new" class="create-button">Добавить нового человека</a>
+</div>
+</body>
+</html>
